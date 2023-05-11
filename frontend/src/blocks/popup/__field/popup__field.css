@@ -1,0 +1,11 @@
+/*min-height: 64px; чтобы не прыгали поля при ошибке в 2 строки*/
+.popup__field{
+  width: calc(100% - 2 * 36px);
+  min-height: 64px;
+}
+
+@media screen and (max-width: 700px) {
+  .popup__field {
+    width: calc(100% - 2 * 22px);
+  }
+}

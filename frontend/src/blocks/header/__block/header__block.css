@@ -1,0 +1,11 @@
+.header__block{
+  display: inline-flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+@media screen and (max-width: 390px){
+  .header__block{
+    margin: 0 27px;
+  }
+}

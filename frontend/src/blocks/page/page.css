@@ -1,0 +1,43 @@
+body{
+  background-color: var(--background-page-color);
+}
+
+.page{
+  position: relative;
+  max-width: 1280px;
+  min-width: 320px;
+  min-height: 100vh;
+  margin: 0 auto;
+  padding: 45px 0 60px;
+  background-color: var(--background-page-color);
+  font-family: 'Inter', 'Arial', sans-serif;
+  color: var(--color-light);
+  display: flex;
+  flex-direction: column;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  -webkit-text-size-adjust: 100%;
+  -ms-text-size-adjust: 100%;
+  -moz-text-size-adjust: 100%;
+  text-rendering: optimizeLegibility;
+}
+
+@media screen and (max-width: 680px){
+  .page{
+    padding: 28px 0 36px;
+    min-height: calc(100vh - 28px - 36px);
+  }
+}
+
+:root{
+  --background-page-color: #000;
+  --color-light: #FFF;
+  --color-light-opacity: #A9A9A9;
+  --text-color-dark: #000;
+  --error-color: #FF0000;
+  --footer-text-color: #545454;
+  --disabled-color: rgba(0, 0, 0, 0.2);
+}
+
+
+

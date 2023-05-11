@@ -1,0 +1,7 @@
+.popup__form{
+  display: inline-grid;
+  width: 100%;
+  justify-items: center;
+}
+
+

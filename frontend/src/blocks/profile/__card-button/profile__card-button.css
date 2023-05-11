@@ -1,0 +1,23 @@
+.profile__card-button{
+  margin: 0;
+  padding: 0;
+  width: 150px;
+  height: 50px;
+  background: rgba(0, 0, 0, 0) url('../../../images/add-button.svg') no-repeat center;
+  background-size: 22px 22px;
+  border: 2px solid #FFFFFF;
+  border-radius: 2px;
+}
+
+
+.profile__card-button:hover{
+  cursor: pointer;
+  opacity: 0.6;
+}
+
+@media screen and (max-width: 1200px){
+  .profile__card-button{
+    background-size: 16px 16px;
+    width: 282px;
+  }
+}

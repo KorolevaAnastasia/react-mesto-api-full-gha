@@ -1,0 +1,31 @@
+.header{
+  width: calc(100% - 2 * 200px);
+  min-height: 74px;
+  margin: 0 auto 40px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  border-bottom: 1px solid rgba(84, 84, 84, .7);
+}
+
+@media screen and (max-width: 1000px){
+  .header{
+    width: calc(100% - 2 * 100px);
+  }
+}
+
+@media screen and (max-width: 850px){
+  .header{
+    width: calc(100% - 2 * 50px);
+  }
+}
+
+@media screen and (max-width: 390px){
+  .header{
+    min-height: 56px;
+    width: 100%;
+  }
+}
+
+
+

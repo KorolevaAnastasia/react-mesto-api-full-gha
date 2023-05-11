@@ -1,0 +1,8 @@
+.card__group{
+  width: calc(100% - 2 * 21px);
+  margin: 25px auto 21px;
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+}
