@@ -32,6 +32,8 @@ const cors = (req, res, next) => {
     return res.end();
   }
 
+  console.log(method)
+
   return next();
 };
 
