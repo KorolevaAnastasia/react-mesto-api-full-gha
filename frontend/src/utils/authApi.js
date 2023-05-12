@@ -53,7 +53,7 @@ class AuthApi {
 }
 
 const authApi = new AuthApi({
-  baseUrl: 'https://api.mesto-akoroleva.nomoredomains.monster/',
+  baseUrl: 'https://api.mesto-akoroleva.nomoredomains.monster',
 });
 
 export default authApi;

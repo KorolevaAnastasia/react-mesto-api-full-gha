@@ -8,8 +8,8 @@
 
 ## Ссылки на проект
 
-IP-адрес 62.84.118.206
+IP 62.84.118.206
 
-Frontend https://mesto-akoroleva.nomoredomains.monster/
+Frontend https://mesto-akoroleva.nomoredomains.monster
 
-Backend https://api.mesto-akoroleva.nomoredomains.monster/
+Backend https://api.mesto-akoroleva.nomoredomains.monster
