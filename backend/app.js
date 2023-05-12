@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose').default;
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -11,7 +12,6 @@ const { errors } = require('celebrate');
 const { requestLogger, errorLogger } = require('./middlewares/logger');
 const { routes } = require('./routes');
 const { handleError } = require('./errors/handleError');
-const { cors } = require('./middlewares/cors');
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb')
   .then(() => console.log('Успешное подключение к MongoDB'))
@@ -23,7 +23,7 @@ app.get('/crash-test', () => {
   }, 0);
 });
 
-app.use(cors);
+app.use(cors());
 
 app.use(cookieParser());
 
