@@ -32,7 +32,7 @@ function Main(props) {
                 onClick={props.onAddPlace}/>
       </section>
       <section className="cards">
-        {props.cards.map((card) => (
+        {Array.isArray(props.cards) ? props.cards.map((card) => (
           <Card
             card={card}
             key={card._id}
@@ -43,7 +43,7 @@ function Main(props) {
             onCardLike={props.onCardLike}
             onCardDeleteClick={props.onCardDeleteClick}
           />
-        ))}
+        )) : ''}
       </section>
     </main>
   );

@@ -1,7 +1,3 @@
-const test_token = localStorage.getItem('token');
-console.log('auth');
-console.log(test_token);
-
 class AuthApi {
   constructor(options) {
     this._url = options.baseUrl;
@@ -40,7 +36,7 @@ class AuthApi {
         "email": email,
         "password": password
       })
-    });
+    })
   }
 
   _checkStatus(res) {
@@ -53,7 +49,6 @@ class AuthApi {
   _request(url, options) {
     return fetch(url, options).then(this._checkStatus);
   }
-
 }
 
 const authApi = new AuthApi({

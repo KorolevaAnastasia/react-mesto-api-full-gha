@@ -35,16 +35,12 @@ function App() {
     isEditAvatarPopupOpen || selectedCard || isSubmitPopupOpen;
   const navigate = useNavigate();
 
-  /*useEffect(() => {
+  useEffect(() => {
     const jwt = localStorage.getItem('jwt');
-    console.log('token');
-    console.log(jwt);
 
     if (jwt) {
       authApi.checkToken(jwt).then(data => {
-        console.log('data');
-        console.log(data);
-        setUserEmail(data.data.email);
+        setUserEmail(data.email);
         setIsLoggedIn(true);
         navigate('/');
       }).catch(error => {
@@ -52,19 +48,18 @@ function App() {
       })
     }
 
-  }, [navigate]);*/
+  }, [navigate])
 
   useEffect(() => {
-    checkToken()
-    if (isLoggedIn) {
+    if(isLoggedIn) {
       Promise.all([api.getUserProfileData(), api.getInitialCards()]).then(([profileInfo, cards]) => {
-        setUserInfo(profileInfo);
-        setCards(cards);
+        setUserInfo(profileInfo.data);
+        setCards(cards.data);
       }).catch((err) => {
         console.error(err);
       })
     }
-  }, [])
+  }, [isLoggedIn])
 
   useEffect(() => {
     function closeByEscape(evt) {
@@ -78,24 +73,6 @@ function App() {
       document.removeEventListener('keydown', closeByEscape);
     }
   }, [isOpen]);
-
-  function checkToken() {
-    const jwt = localStorage.getItem('jwt');
-    console.log('token');
-    console.log(jwt);
-
-    if (jwt) {
-      authApi.checkToken(jwt).then((data) => {
-        console.log('data');
-        console.log(data);
-        setUserEmail(data.data.email);
-        setIsLoggedIn(true);
-        navigate('/');
-      }).catch(error => {
-        console.log(error);
-      })
-    }
-  }
 
   function handleRegisterUser(email, password) {
     authApi.registerUser(email, password).then(data => {
@@ -111,7 +88,7 @@ function App() {
 
   function handleLoginUser(email, password) {
     authApi.loginUser(email, password).then(data => {
-      localStorage.setItem('jwt', data.token);
+      localStorage.setItem('jwt', data.jwt);
       setIsLoggedIn(true);
       setUserEmail(email);
       navigate('/');
@@ -169,8 +146,8 @@ function App() {
 
   function handleUpdateAvatar(avatarData) {
     setIsLoading(true);
-    api.changeUserProfileAvatar(avatarData).then((profileInfo) => {
-      setUserInfo(profileInfo);
+    api.changeUserProfileAvatar(avatarData).then((profileAvatar) => {
+      setUserInfo(profileAvatar);
       closeAllPopups();
     }).catch((err) => {
       console.error(err);

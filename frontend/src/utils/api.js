@@ -1,7 +1,3 @@
-const test_token = localStorage.getItem('token');
-console.log('api');
-console.log(test_token);
-
 class Api {
   constructor(options) {
     this._url = options.baseUrl;
@@ -104,10 +100,12 @@ class Api {
 
 }
 
+const token = localStorage.getItem('jwt');
 const api = new Api({
   baseUrl: 'https://api.mesto-akoroleva.nomoredomains.monster',
   headers: {
-    'Content-Type': 'application/json'
+    'Content-Type': 'application/json',
+    'Authorization': `Bearer ${token}`
   }
 });
 

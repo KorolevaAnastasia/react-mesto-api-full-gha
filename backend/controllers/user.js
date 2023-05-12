@@ -14,8 +14,6 @@ module.exports.login = (req, res, next) => {
   return User.findUserByCredentials(email, password)
     .then((user) => {
       const token = jwt.sign({ _id: user._id }, NODE_ENV ? JWT_SECRET : 'secret-key', { expiresIn: '7d' });
-      console.log('beck-token');
-      console.log(token);
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
         httpOnly: true,
@@ -79,13 +77,13 @@ module.exports.createUser = (req, res, next) => {
 module.exports.updateProfile = (req, res, next) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about }, { runValidators: true, new: true })
-    .then((user) => res.send({ name: user.name, about: user.about }))
+    .then((user) => res.send({ user }))
     .catch(next);
 };
 
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, { runValidators: true, new: true })
-    .then((user) => res.send({ avatar: user.avatar }))
+    .then((user) => res.send({ user }))
     .catch(next);
 };
