@@ -5,14 +5,14 @@ const { ForbiddenError } = require('../errors/ForbiddenError');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
-    .then((cards) => res.send({ data: cards }))
+    .then((cards) => res.send(cards))
     .catch(next);
 };
 
 module.exports.createCard = (req, res, next) => {
   const { name, link } = req.body;
   Card.create({ name, link, owner: req.user._id })
-    .then((card) => res.status(CREATED).send({ data: card }))
+    .then((card) => res.status(CREATED).send(card))
     .catch(next);
 };
 

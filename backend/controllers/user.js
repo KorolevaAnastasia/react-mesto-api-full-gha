@@ -24,7 +24,7 @@ module.exports.login = (req, res, next) => {
 
 module.exports.getUsers = (req, res, next) => {
   User.find({})
-    .then((users) => res.send({ data: users }))
+    .then((users) => res.send(users))
     .catch(next);
 };
 
@@ -32,7 +32,7 @@ module.exports.getUser = (req, res, next) => {
   User.findById(req.params.userId)
     .then((user) => {
       if (!user) return next(new NotFoundError('Пользователь не найден'));
-      return res.send({ data: user });
+      return res.send(user);
     })
     .catch(next);
 };
@@ -42,7 +42,7 @@ module.exports.getProfile = (req, res, next) => {
   User.findById(userId)
     .then((user) => {
       if (!user) return next(new NotFoundError('Пользователь не найден'));
-      return res.send({ data: user });
+      return res.send(user);
     })
     .catch(next);
 };
@@ -77,13 +77,13 @@ module.exports.createUser = (req, res, next) => {
 module.exports.updateProfile = (req, res, next) => {
   const { name, about } = req.body;
   User.findByIdAndUpdate(req.user._id, { name, about }, { runValidators: true, new: true })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user))
     .catch(next);
 };
 
 module.exports.updateAvatar = (req, res, next) => {
   const { avatar } = req.body;
   User.findByIdAndUpdate(req.user._id, { avatar }, { runValidators: true, new: true })
-    .then((user) => res.send({ data: user }))
+    .then((user) => res.send(user)
     .catch(next);
 };

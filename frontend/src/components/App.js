@@ -53,8 +53,8 @@ function App() {
   useEffect(() => {
     if(isLoggedIn) {
       Promise.all([api.getUserProfileData(), api.getInitialCards()]).then(([profileInfo, cards]) => {
-        setUserInfo(profileInfo.data);
-        setCards(cards.data);
+        setUserInfo(profileInfo);
+        setCards(cards);
       }).catch((err) => {
         console.error(err);
       })
@@ -135,7 +135,7 @@ function App() {
   function handleUpdateUser(userData) {
     setIsLoading(true);
     api.updateUserProfileData(userData).then((profileInfo) => {
-      setUserInfo(profileInfo.data);
+      setUserInfo(profileInfo);
       closeAllPopups();
     }).catch((err) => {
       console.error(err);
@@ -147,7 +147,7 @@ function App() {
   function handleUpdateAvatar(avatarData) {
     setIsLoading(true);
     api.changeUserProfileAvatar(avatarData).then((profileAvatar) => {
-      setUserInfo({ ...currentUser, avatar: profileAvatar });
+      setUserInfo({ ...currentUser, avatar: profileAvatar.avatar });
       closeAllPopups();
     }).catch((err) => {
       console.error(err);
