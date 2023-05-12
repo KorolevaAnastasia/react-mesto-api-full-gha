@@ -35,11 +35,15 @@ function App() {
     isEditAvatarPopupOpen || selectedCard || isSubmitPopupOpen;
   const navigate = useNavigate();
 
-  useEffect(() => {
+  /*useEffect(() => {
     const jwt = localStorage.getItem('jwt');
+    console.log('token');
+    console.log(jwt);
 
     if (jwt) {
       authApi.checkToken(jwt).then(data => {
+        console.log('data');
+        console.log(data);
         setUserEmail(data.data.email);
         setIsLoggedIn(true);
         navigate('/');
@@ -47,15 +51,19 @@ function App() {
         console.log(error);
       })
     }
-  }, [navigate]);
+
+  }, [navigate]);*/
 
   useEffect(() => {
-    Promise.all([api.getUserProfileData(), api.getInitialCards()]).then(([profileInfo, cards]) => {
-      setUserInfo(profileInfo);
-      setCards(cards);
-    }).catch((err) => {
-      console.error(err);
-    })
+    checkToken()
+    if (isLoggedIn) {
+      Promise.all([api.getUserProfileData(), api.getInitialCards()]).then(([profileInfo, cards]) => {
+        setUserInfo(profileInfo);
+        setCards(cards);
+      }).catch((err) => {
+        console.error(err);
+      })
+    }
   }, [])
 
   useEffect(() => {
@@ -71,6 +79,23 @@ function App() {
     }
   }, [isOpen]);
 
+  function checkToken() {
+    const jwt = localStorage.getItem('jwt');
+    console.log('token');
+    console.log(jwt);
+
+    if (jwt) {
+      authApi.checkToken(jwt).then((data) => {
+        console.log('data');
+        console.log(data);
+        setUserEmail(data.data.email);
+        setIsLoggedIn(true);
+        navigate('/');
+      }).catch(error => {
+        console.log(error);
+      })
+    }
+  }
 
   function handleRegisterUser(email, password) {
     authApi.registerUser(email, password).then(data => {

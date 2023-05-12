@@ -1,13 +1,13 @@
 const express = require('express');
 
 const routes = express.Router();
-const { celebrate, Joi, errors} = require('celebrate');
+const { celebrate, Joi, errors } = require('celebrate');
 const { NotFoundError } = require('../errors/NotFoundError');
 const { regExp } = require('../utils/utils');
 const { createUser, login } = require('../controllers/user');
 const auth = require('../middlewares/auth');
 const { requestLogger, errorLogger } = require('../middlewares/logger');
-const {handleError} = require("../errors/handleError");
+const { handleError } = require('../errors/handleError');
 
 routes.use(requestLogger);
 

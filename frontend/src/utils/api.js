@@ -1,3 +1,7 @@
+const test_token = localStorage.getItem('token');
+console.log('api');
+console.log(test_token);
+
 class Api {
   constructor(options) {
     this._url = options.baseUrl;

@@ -1,3 +1,7 @@
+const test_token = localStorage.getItem('token');
+console.log('auth');
+console.log(test_token);
+
 class AuthApi {
   constructor(options) {
     this._url = options.baseUrl;
