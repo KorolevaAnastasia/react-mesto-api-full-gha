@@ -135,6 +135,8 @@ function App() {
   function handleUpdateUser(userData) {
     setIsLoading(true);
     api.updateUserProfileData(userData).then((profileInfo) => {
+      console.log('profileInfo');
+      console.log(profileInfo);
       setUserInfo(profileInfo);
       closeAllPopups();
     }).catch((err) => {
@@ -147,7 +149,9 @@ function App() {
   function handleUpdateAvatar(avatarData) {
     setIsLoading(true);
     api.changeUserProfileAvatar(avatarData).then((profileAvatar) => {
-      setUserInfo(profileAvatar);
+      console.log('profileAvatar');
+      console.log(profileAvatar);
+      setUserInfo({ ...currentUser, avatar: profileAvatar });
       closeAllPopups();
     }).catch((err) => {
       console.error(err);
