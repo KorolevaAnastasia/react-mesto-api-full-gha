@@ -15,27 +15,7 @@ const { handleError } = require('./errors/handleError');
 
 app.use(cookieParser());
 
-const allowedCors = [
-  'https://praktikum.tk',
-  'http://praktikum.tk',
-  'localhost:3000',
-  'http://localhost:3000',
-  'http://127.0.0.1:3000',
-  'https://mesto-akoroleva.nomoredomains.monster/',
-  'http://mesto-akoroleva.nomoredomains.monster/',
-];
-
-const corsOptionsDelegate = function (req, callback) {
-  let corsOptions;
-  if (allowedCors.indexOf(req.header('Origin')) !== -1) {
-    corsOptions = { origin: true };
-  } else {
-    corsOptions = { origin: false };
-  }
-  callback(null, corsOptions);
-};
-
-app.use(cors(corsOptionsDelegate));
+app.use(cors());
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb')
   .then(() => console.log('Успешное подключение к MongoDB'))
