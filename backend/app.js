@@ -1,6 +1,7 @@
 const express = require('express');
 const mongoose = require('mongoose').default;
 const cookieParser = require('cookie-parser');
+const cors = require('cors');
 
 require('dotenv').config();
 
@@ -24,25 +25,17 @@ const allowedCors = [
   'http://mesto-akoroleva.nomoredomains.monster/',
 ];
 
-app.use((req, res, next) => {
-  const { origin } = req.headers;
-
-  if (allowedCors.includes(origin)) {
-    res.header('Access-Control-Allow-Origin', origin);
+const corsOptionsDelegate = function (req, callback) {
+  let corsOptions;
+  if (allowedCors.indexOf(req.header('Origin')) !== -1) {
+    corsOptions = { origin: true };
+  } else {
+    corsOptions = { origin: false };
   }
+  callback(null, corsOptions);
+};
 
-  const { method } = req;
-  const DEFAULT_ALLOWED_METHODS = 'GET,HEAD,PUT,PATCH,POST,DELETE';
-
-  const requestHeaders = req.headers['access-control-request-headers'];
-  if (method === 'OPTIONS') {
-    res.header('Access-Control-Allow-Methods', DEFAULT_ALLOWED_METHODS);
-    res.header('Access-Control-Allow-Headers', requestHeaders);
-    return res.end();
-  }
-
-  next();
-});
+app.use(cors(corsOptionsDelegate));
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb')
   .then(() => console.log('Успешное подключение к MongoDB'))
