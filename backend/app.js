@@ -8,10 +8,10 @@ require('dotenv').config();
 const app = express();
 
 const { PORT = 3000 } = process.env;
+const { errors } = require('celebrate');
 const { routes } = require('./routes');
-const {requestLogger, errorLogger} = require("./middlewares/logger");
-const {errors} = require("celebrate");
-const {handleError} = require("./errors/handleError");
+const { requestLogger, errorLogger } = require('./middlewares/logger');
+const { handleError } = require('./errors/handleError');
 
 mongoose.connect('mongodb://127.0.0.1:27017/mestodb')
   .then(() => console.log('Успешное подключение к MongoDB'))

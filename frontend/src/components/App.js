@@ -1,7 +1,6 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from 'react';
 import { Routes, Route, Navigate, useNavigate } from 'react-router-dom';
 
-import api from "../utils/api";
 import authApi from "../utils/authApi";
 import Login from "./Login";
 import Header from './Header';
@@ -16,6 +15,14 @@ import SubmitPopup from "./SubmitPopup";
 import ProtectedRoute from "./ProtectedRoute";
 import Register from "./Register";
 import InfoTooltip from "./InfoTooltip";
+import {
+  addCard,
+  changeLikeCardStatus, changeUserProfileAvatar,
+  getInitialCards,
+  getUserProfileData,
+  removeCard,
+  updateUserProfileData
+} from "../utils/api";
 
 function App() {
   const [isEditProfilePopupOpen, setEditProfilePopupOpen] = useState(false);
@@ -47,12 +54,11 @@ function App() {
         console.log(error);
       })
     }
-
-  }, [navigate])
+  }, [navigate]);
 
   useEffect(() => {
     if(isLoggedIn) {
-      Promise.all([api.getUserProfileData(), api.getInitialCards()]).then(([profileInfo, cards]) => {
+      Promise.all([getUserProfileData(), getInitialCards()]).then(([profileInfo, cards]) => {
         setUserInfo(profileInfo);
         setCards(cards);
       }).catch((err) => {
@@ -107,7 +113,7 @@ function App() {
 
   function handleCardLike(card) {
     const isLiked = card.likes.some(i => i == currentUser._id);
-    api.changeLikeCardStatus(card._id, isLiked).then((newCard) => {
+    changeLikeCardStatus(card._id, isLiked).then((newCard) => {
       setCards((state) => state.map((c) => c._id == card._id ? newCard : c));
     }).catch((err) => {
       console.error(err);
@@ -117,7 +123,7 @@ function App() {
   function handleCardDelete(evt) {
     evt.preventDefault();
     setIsLoading(true);
-    api.removeCard(cardRemove._id).then(() => {
+    removeCard(cardRemove._id).then(() => {
       setCards((state) => state.filter((c) => c._id !== cardRemove._id && c));
       closeAllPopups();
     }).catch((err) => {
@@ -134,7 +140,7 @@ function App() {
 
   function handleUpdateUser(userData) {
     setIsLoading(true);
-    api.updateUserProfileData(userData).then((profileInfo) => {
+    updateUserProfileData(userData).then((profileInfo) => {
       setUserInfo(profileInfo);
       closeAllPopups();
     }).catch((err) => {
@@ -146,7 +152,7 @@ function App() {
 
   function handleUpdateAvatar(avatarData) {
     setIsLoading(true);
-    api.changeUserProfileAvatar(avatarData).then((profileAvatar) => {
+    changeUserProfileAvatar(avatarData).then((profileAvatar) => {
       setUserInfo({ ...currentUser, avatar: profileAvatar.avatar });
       closeAllPopups();
     }).catch((err) => {
@@ -158,7 +164,7 @@ function App() {
 
   function handleAddPlace(cardData) {
     setIsLoading(true);
-    api.addCard(cardData).then((newCard) => {
+    addCard(cardData).then((newCard) => {
       setCards([newCard, ...cards]);
       closeAllPopups();
     }).catch((err) => {

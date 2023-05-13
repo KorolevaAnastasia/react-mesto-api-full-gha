@@ -1,7 +1,7 @@
 const express = require('express');
 
 const routes = express.Router();
-const { celebrate, Joi, errors } = require('celebrate');
+const { celebrate, Joi } = require('celebrate');
 const { NotFoundError } = require('../errors/NotFoundError');
 const { regExp } = require('../utils/utils');
 const { createUser, login } = require('../controllers/user');
@@ -29,7 +29,7 @@ routes.post('/signin', celebrate({
 routes.use('/users', auth, require('./users'));
 routes.use('/cards', auth, require('./cards'));
 
-routes.all('*', auth,(req, res, next) => {
+routes.all('*', auth, (req, res, next) => {
   next(new NotFoundError('Страница не найдена'));
 });
 

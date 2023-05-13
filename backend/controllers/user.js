@@ -8,13 +8,12 @@ const { CREATED } = require('../utils/constants');
 
 const { NotFoundError } = require('../errors/NotFoundError');
 const { ConflictError } = require('../errors/ConflictError');
-const {ValidationError} = require("../errors/ValidationError");
+const { ValidationError } = require('../errors/ValidationError');
 
 module.exports.login = (req, res, next) => {
   const { email, password } = req.body;
   return User.findUserByCredentials(email, password)
     .then((user) => {
-      console.log(NODE_ENV);
       const token = jwt.sign({ _id: user._id }, NODE_ENV ? JWT_SECRET : 'secret-key', { expiresIn: '7d' });
       res.cookie('jwt', token, {
         maxAge: 3600000 * 24 * 7,
@@ -72,8 +71,8 @@ module.exports.createUser = (req, res, next) => {
     })
     .catch((err) => {
       if (err.code === 11000) return next(new ConflictError('Пользователь уже существует'));
-      else if (err.name === 'ValidationError') return next(new ValidationError('Некорректные данные при создании пользователя.'));
-      else next(err);
+      if (err.name === 'ValidationError') return next(new ValidationError('Некорректные данные при создании пользователя.'));
+      return next(err);
     });
 };
 
@@ -82,8 +81,8 @@ module.exports.updateProfile = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { name, about }, { runValidators: true, new: true })
     .then((user) => res.send(user))
     .catch((err) => {
-      if(err.name === 'ValidationError') return next(new ValidationError('Некорректные данные при обновлении профиля пользователя.'));
-      else return next(err);
+      if (err.name === 'ValidationError') return next(new ValidationError('Некорректные данные при обновлении профиля пользователя.'));
+      return next(err);
     });
 };
 
@@ -92,7 +91,7 @@ module.exports.updateAvatar = (req, res, next) => {
   User.findByIdAndUpdate(req.user._id, { avatar }, { runValidators: true, new: true })
     .then((user) => res.send(user))
     .catch((err) => {
-      if(err.name === 'ValidationError') return next(new ValidationError('Некорректные данные при обновлении аватара пользователя.'));
-      else return next(err);
+      if (err.name === 'ValidationError') return next(new ValidationError('Некорректные данные при обновлении аватара пользователя.'));
+      return next(err);
     });
 };

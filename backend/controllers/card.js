@@ -2,7 +2,7 @@ const Card = require('../models/card');
 const { CREATED } = require('../utils/constants');
 const { NotFoundError } = require('../errors/NotFoundError');
 const { ForbiddenError } = require('../errors/ForbiddenError');
-const {ValidationError} = require("../errors/ValidationError");
+const { ValidationError } = require('../errors/ValidationError');
 
 module.exports.getCards = (req, res, next) => {
   Card.find({})
@@ -15,8 +15,8 @@ module.exports.createCard = (req, res, next) => {
   Card.create({ name, link, owner: req.user._id })
     .then((card) => res.status(CREATED).send(card))
     .catch((err) => {
-      if(err.name === 'ValidationError') return next(new ValidationError('Некорректные данные при создании карточки.'));
-      else return next(err);
+      if (err.name === 'ValidationError') return next(new ValidationError('Некорректные данные при создании карточки.'));
+      return next(err);
     });
 };
 

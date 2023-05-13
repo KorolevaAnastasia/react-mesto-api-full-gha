@@ -1,112 +1,120 @@
-class Api {
-  constructor(options) {
-    this._url = options.baseUrl;
-    this._headers = options.headers;
-  }
+const baseUrl = 'https://api.mesto-akoroleva.nomoredomains.monster';
 
-  getInitialCards() {
-    return this._request(
-      this._url + '/cards', {
-      method: 'GET',
-      headers: this._headers
-    });
-  }
-
-  getUserProfileData() {
-    return this._request(
-      this._url + '/users/me', {
-        method: 'GET',
-        headers: this._headers
-      });
-  }
-
-  updateUserProfileData(userData) {
-    return this._request(
-      this._url + '/users/me', {
-        method: 'PATCH',
-        headers: this._headers,
-        body: JSON.stringify({
-          name: userData.name,
-          about: userData.about
-        })
-      });
-  }
-
-  changeUserProfileAvatar(avatarData){
-    return this._request(
-      this._url + '/users/me/avatar', {
-        method: 'PATCH',
-        headers: this._headers,
-        body: JSON.stringify({
-          avatar: avatarData.avatar,
-        })
-      });
-  }
-
-  addCard(cardData){
-    return this._request(
-      this._url + '/cards', {
-        method: 'POST',
-        headers: this._headers,
-        body: JSON.stringify({
-          name: cardData.name,
-          link: cardData.link
-        })
-      });
-  }
-
-  removeCard(cardId){
-    return this._request(
-      this._url + `/cards/${cardId}`, {
-        method: 'DELETE',
-        headers: this._headers
-      });
-  }
-
-  likeCard(cardId){
-    return this._request(
-      this._url + `/cards/${cardId}/likes`, {
-        method: 'PUT',
-        headers: this._headers
-      });
-  }
-
-  dislikeCard(cardId){
-    return this._request(
-      this._url + `/cards/${cardId}/likes`, {
-        method: 'DELETE',
-        headers: this._headers
-      });
-  }
-
-  changeLikeCardStatus(cardId, isLiked){
-    if (isLiked) {
-      return this.dislikeCard(cardId);
-    } else {
-      return this.likeCard(cardId);
-    }
-  }
-
-  _checkStatus(res) {
-    if (res.ok)
-      return res.json();
-
-    return Promise.reject(`Ошибка ${res.status}`);
-  }
-
-  _request(url, options) {
-    return fetch(url, options).then(this._checkStatus);
-  }
-
+export function getInitialCards() {
+  return request(
+    baseUrl + '/cards', {
+    method: 'GET',
+    headers: {
+      'Content-Type': 'application/json',
+      'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+    },
+  });
 }
 
-const token = localStorage.getItem('jwt');
-const api = new Api({
-  baseUrl: 'https://api.mesto-akoroleva.nomoredomains.monster',
-  headers: {
-    'Content-Type': 'application/json',
-    'Authorization': `Bearer ${token}`
-  }
-});
+export function getUserProfileData() {
+  return request(
+    baseUrl + '/users/me', {
+      method: 'GET',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      }
+    });
+}
 
-export default api;
+export function updateUserProfileData(userData) {
+  return request(
+    baseUrl + '/users/me', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
+      body: JSON.stringify({
+        name: userData.name,
+        about: userData.about
+      })
+    });
+}
+
+export function changeUserProfileAvatar(avatarData){
+  return request(
+    baseUrl + '/users/me/avatar', {
+      method: 'PATCH',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
+      body: JSON.stringify({
+        avatar: avatarData.avatar,
+      })
+    });
+}
+
+export function addCard(cardData){
+  return request(
+    baseUrl + '/cards', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
+      body: JSON.stringify({
+        name: cardData.name,
+        link: cardData.link
+      })
+    });
+}
+
+export function removeCard(cardId){
+  return request(
+    baseUrl + `/cards/${cardId}`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
+    });
+}
+
+export function likeCard(cardId){
+  return this._request(
+    baseUrl + `/cards/${cardId}/likes`, {
+      method: 'PUT',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
+    });
+}
+
+export function dislikeCard(cardId){
+  return this._request(
+    this._url + `/cards/${cardId}/likes`, {
+      method: 'DELETE',
+      headers: {
+        'Content-Type': 'application/json',
+        'Authorization': `Bearer ${localStorage.getItem('jwt')}`
+      },
+    });
+}
+
+export function changeLikeCardStatus(cardId, isLiked){
+  if (isLiked) {
+    return this.dislikeCard(cardId);
+  } else {
+    return this.likeCard(cardId);
+  }
+}
+
+function checkStatus(res) {
+  if (res.ok)
+    return res.json();
+
+  return Promise.reject(`Ошибка ${res.status}`);
+}
+
+function request(url, options) {
+  return fetch(url, options).then(checkStatus);
+}
+
